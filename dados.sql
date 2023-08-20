@@ -1,3 +1,48 @@
+
+-- ########################################################################################################
+-- ENSINO
+drop table if exists pessoa;
+drop table if exists aluno;
+drop table if exists disciplina;
+drop table if exists matricula;
+
+create table pessoa (
+    id serial primary key not null,
+    nome varchar(75) not null,
+    data_cadastro date not null
+);
+
+create table aluno (
+    id serial primary key not null,
+    pessoa_id int not null,
+    data_cadastro date not null,
+    constraint fk_aluno_pessoa foreign key (pessoa_id) references pessoa(id)
+);
+
+alter table aluno add matricula varchar (10) not null;
+
+create table disciplina (
+    id serial primary key not null,
+    nome varchar(75) not null,
+    codigo varchar(6) not null,
+    data_cadastro date not null
+);
+
+create table matricula(
+    id serial primary key not null,
+    aluno_id int not null,
+    disciplina_id int not null,
+    data_cadastro timestamp not null default current_timestamp,
+    nota1 decimal(10,2) null,
+    nota2 decimal(10,2) null,
+    media decimal(10,2) null,
+    constraint fk_matricula_aluno foreign key (aluno_id) references aluno(id),
+    constraint fk_matricula_disciplina foreign key (disciplina_id) references disciplina(id)
+);
+
+-- ########################################################################################################
+
+
 -- Script PostgreSQL com cadastro de cidades e estados do país, conforme IBGE.
 -- Adaptado de https://www.ricardoarrigoni.com.br/cidades-brasil-lista-de-cidades-brasileiras-em-sql/
 -- Área por estado: https://pt.wikipedia.org/wiki/Lista_de_unidades_federativas_do_Brasil_por_área

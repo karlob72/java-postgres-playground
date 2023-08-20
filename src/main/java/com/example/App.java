@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.example.dao.ConnectManager;
+
 public class App {
     private static final String PASSWORD = "";
     private static final String USERNAME = "gitpod";
@@ -11,12 +13,12 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println("Teste repo");
-        //new App();
+        new App();
     }
 
     public App(){
-        try(var conn = getConnection()){
-            carregarDriverJDBC();
+        try(var conn = ConnectManager.getConnection()){
+            //carregarDriverJDBC();
             listarEstados(conn);
             localizarEstado(conn, "PR");
             listarDadosTabela(conn, "produto");
@@ -85,10 +87,7 @@ public class App {
         }
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-    }
-
+    
     private void carregarDriverJDBC() {
         try {
             Class.forName("org.postgresql.Driver");
